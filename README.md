@@ -57,6 +57,14 @@ server {
 }
 ```
 
+## Development Tools
+
+These commands are available:
+```
+npm run start - starts Heliactyl via nodemon
+npm run build - builds TailwindCSS, required for making changes to the UI
+```
+
 ## Heliactyl API v2
 
 In v14, we've introduced the next generation of Heliactyl's API. You can see the documentation below:
