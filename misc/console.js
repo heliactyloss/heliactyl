@@ -15,7 +15,7 @@ function logWithInfo() {
     // this was here: ${chalk.bgBlue(' ' + (filePath.replace('at Server.<anonymous> (/home/container/', '')).replace(')', '') + ' ')}
     // whoever wrote this back at kaveri is fucking retarded...
     // edit 01/24: this is still a pile of shit. why are we adding the date and time to every log, it fucks half of them up -atqr
-    const args = Array.from(arguments);s
+    const args = Array.from(arguments);
     args.unshift(prefix);
     originalLog.apply(
       console,
