@@ -1,0 +1,97 @@
+<head>
+  <title><%= settings.name %></title>
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.png">
+  <link rel="stylesheet" href="../assets/tailwind.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://unpkg.com/@popperjs/core@2.10.1/dist/umd/popper.min.js"></script>
+
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100" style="font-family: 'Inter', sans-serif;">
+  <%
+let ram = 0;
+let disk = 0;
+let cpu = 0;
+let servers = pterodactyl.relationships.servers.data.length;
+for (let i = 0, len = pterodactyl.relationships.servers.data.length; i < len; i++) {
+    ram = ram + (typeof pterodactyl.relationships.servers.data[i].attributes.limits.memory == "number" ? pterodactyl.relationships.servers.data[i].attributes.limits.memory : 0);
+    disk = disk + (typeof pterodactyl.relationships.servers.data[i].attributes.limits.disk == "number" ? pterodactyl.relationships.servers.data[i].attributes.limits.disk : 0);
+    cpu = cpu + (typeof pterodactyl.relationships.servers.data[i].attributes.limits.cpu == "number" ? pterodactyl.relationships.servers.data[i].attributes.limits.cpu : 0);
+}
+%>
+  <%- include('../components/navigation') %>
+  <div class="md:pl-48 flex flex-col flex-1 h-screen">
+    <main class="flex-1 pb-32">
+      <div class="py-6">
+        <!-- Skeleton loader -->
+        <%- include('../components/skeleton') %>
+        <div class="hidden max-w-7xl pt-8 mx-auto px-4 sm:px-6 md:px-8" id="content">
+          <% if (req.query.err == "SUCCESS") { %>
+          <div class="rounded-3xl bg-white p-8 mb-5">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-emerald-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div class="ml-3">
+                <h3 class="text-md font-medium tracking-tight text-gray-700">Transfer complete</h3>
+                <div class="mt-1 text-sm text-gray-500">
+                  <p>The requested user has now received the credits.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %>
+          <!-- Replace with your content -->
+          <div class="lg:flex lg:items-center lg:justify-between rounded-3xl mb-8">
+            <div class="min-w-0 flex-1">
+              <div class="flex">
+                <div class="relative">
+                  <div class="bg-gray-200 rounded-2xl h-11 w-11 text-center flex text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mt-3 ml-3">
+                      <path d="M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z" />
+                    </svg>
+                  </div>
+                </div>
+                <div class="relative ml-4">
+                  <h2 class="text-xl font-semibold text-gray-700 sm:truncate tracking-tight">Transfer</h2>
+                  <p class="text-xs font-thin text-gray-500">Send your credits to another user.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- This example requires Tailwind CSS v2.0+ -->
+          <div class="card mt-5">
+            <div class="card-body">
+              <label for="ram" class="text-sm font-medium text-gray-600">User ID</label>
+              <input type="text" class="mt-3 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-1/4 text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" id="dc" placeholder="00000000000000000">
+              <br>
+              <label for="disk" class="text-sm font-medium text-gray-600">Credits</label>
+              <input type="text" class="mt-3 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-1/4 text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" id="amount" placeholder="<%= coins.toFixed(2) %>">
+              <br>
+
+              <a href="javascript:submitForm()" type="button" class="transition inline-flex items-center rounded-2xl bg-gray-200 px-8 py-2 text-sm font-medium text-gray-600 hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
+                Transfer
+              </a>
+              <br>
+            </div>
+            <script>
+              async function submitForm() {
+                let id = encodeURIComponent(document.getElementById("dc").value);
+                let coins = encodeURIComponent(document.getElementById("amount").value);
+                document.location.href = `/giftcoins?id=${id}&coins=${coins}`;
+              };
+            </script>
+          </div>
+        </div>
+      </div>
+    </main>
+    <%- include('../components/footer') %>
+  </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.js" integrity="sha512-eOUPKZXJTfgptSYQqVilRmxUNYm0XVHwcRHD4mdtCLWf/fC9XWe98IT8H1xzBkLL4Mo9GL0xWMSJtgS5te9rQA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>

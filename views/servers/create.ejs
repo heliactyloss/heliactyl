@@ -1,0 +1,149 @@
+<head>
+  <title><%= settings.name %></title>
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.png">
+  <link rel="stylesheet" href="../assets/tailwind.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://unpkg.com/@popperjs/core@2.10.1/dist/umd/popper.min.js"></script>
+
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100" style="font-family: 'Inter', sans-serif;">
+  <%
+     let ram = 0;
+     let disk = 0;
+     let cpu = 0;
+     let servers = pterodactyl.relationships.servers.data.length;
+     for (let i = 0, len = pterodactyl.relationships.servers.data.length; i < len; i++) {
+         ram = ram + (typeof pterodactyl.relationships.servers.data[i].attributes.limits.memory == "number" ? pterodactyl.relationships.servers.data[i].attributes.limits.memory : 0);
+         disk = disk + (typeof pterodactyl.relationships.servers.data[i].attributes.limits.disk == "number" ? pterodactyl.relationships.servers.data[i].attributes.limits.disk : 0);
+         cpu = cpu + (typeof pterodactyl.relationships.servers.data[i].attributes.limits.cpu == "number" ? pterodactyl.relationships.servers.data[i].attributes.limits.cpu : 0);
+     }
+     %>
+  <%- include('../components/navigation') %>
+  <div class="md:pl-48 flex flex-col flex-1 h-screen">
+    <main class="flex-1 pb-32">
+      <div class="py-6">
+        <!-- Skeleton loader -->
+        <%- include('../components/skeleton') %>
+        <div class="hidden max-w-7xl pt-8 mx-auto px-4 sm:px-6 md:px-8" id="content">
+          <div class="lg:flex lg:items-center lg:justify-between rounded-3xl mb-8">
+            <div class="min-w-0 flex-1">
+              <div class="flex">
+                <div class="relative">
+                  <div class="bg-gray-200 rounded-2xl h-11 w-11 text-center flex text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mt-3 ml-3">
+                      <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 9a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V15a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V9Z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
+                <div class="relative ml-4">
+                  <h2 class="text-xl font-semibold text-gray-700 sm:truncate tracking-tight">Deploy Server</h2>
+                  <p class="text-xs font-thin text-gray-500">Create a new server on the Panel.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% if (req.query.err) { %>
+          <div class="rounded-3xl bg-gray-200 p-8 mb-5">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 text-gray-400">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div class="ml-3">
+                <h3 class="text-md font-medium tracking-tight text-gray-700">An error was encountered</h3>
+                <div class="mt-1 text-sm text-gray-500">
+                  <p>Error code: <code><%= req.query.err %></code></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %>
+          <% if ((packages ? packages.ram : 0)/1024 + extraresources.ram/1024 - ram/1024 > 0) { %>
+          <div class="card mt-5">
+            <div class="card-body">
+              <% /* Server name */ %>
+              <label for="location" class="text-sm font-medium text-gray-600">Name</label><br>
+              <input type="text" class="mt-3 mb-4 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-1/4 text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" id="name" placeholder="My server">
+
+              <% /* Location */ %>
+              <label for="location" class="text-sm font-medium text-gray-600">Location</label>
+              <select class="mt-3 mb-4 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-1/4 text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" id="location">
+                <% for (let [name, value] of Object.entries(settings.api.client.locations)) { %>
+                <option value="<%= name %>"><%= value.name %></option>
+                <% } %>
+              </select>
+
+              <% /* Software */ %>
+              <label for="location" class="text-sm font-medium text-gray-600">
+                Software
+              </label>
+              <select class="mt-3 mb-4 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-1/4 text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" id="egg">
+                <% for (let [name, value] of Object.entries(settings.api.client.eggs)) { %>
+                <option value="<%= name %>"><%= value.display %></option>
+                <% } %>
+              </select>
+
+              <% /* Resources - RAM, CPU, Disk */ %>
+              <label for="ram" class="text-sm font-medium text-gray-600 pt-4">Memory (GiB)</label>
+              <input type="text" class="mt-3 mb-4 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-1/4 text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" id="ram" placeholder="<%= (packages ? packages.ram : 0)/1024 + extraresources.ram/1024 - ram/1024 %>" value="<%= (packages ? packages.ram : 0)/1024 + extraresources.ram/1024 - ram/1024 %>">
+              <label for="disk" class="text-sm font-medium text-gray-600 pt-4">Storage (GiB)</label>
+              <input type="text" class="mt-3 mb-4 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-1/4 text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" id="disk" placeholder="<%= (packages ? packages.disk : 0)/1024 + extraresources.disk/1024 - disk/1024 %>" value="<%= (packages ? packages.disk : 0)/1024 + extraresources.disk/1024 - disk/1024 %>">
+              <label for="cpu" class="text-sm font-medium text-gray-600 pt-4">CPU Cores</label>
+              <input type="text" class="mt-3 mb-4 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-1/4 text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" id="cpu" placeholder="<%= (packages ? packages.cpu : 0)/100 + extraresources.cpu/100 - cpu/100 %>" value="<%= (packages ? packages.cpu : 0)/100 + extraresources.cpu/100 - cpu/100 %>">
+
+              <% /* Submit form */ %>
+              <a href="javascript:submitForm()" type="button" class="mt-6 transition inline-flex items-center rounded-2xl bg-gray-200 px-8 py-2 text-sm font-medium text-gray-600 hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600" onclick="replaceWithLoader()">
+                <span id="contentWrapper" class="flex">
+                  Create
+                </span>
+                <span id="loaderWrapper" style="display:none;">
+                  <svg class="animate-spin ml-6 mr-6 mt-0.5 mb-0.5 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                </span>
+              </a>
+              <br>
+            </div>
+            <script>
+              async function submitForm() {
+                let name = encodeURIComponent(document.getElementById("name").value);
+                let egg = encodeURIComponent(document.getElementById("egg").value);
+                let ram = encodeURIComponent(document.getElementById("ram").value);
+                let disk = encodeURIComponent(document.getElementById("disk").value);
+                let cpu = encodeURIComponent(document.getElementById("cpu").value);
+                let location = encodeURIComponent(document.getElementById("location").value); // in versions of Heliactyl where this is a selection of cards instead of a dropdown, this will need to be changed to a different method of getting the location
+                document.location.href = `/create?name=${name}&egg=${egg}&ram=${ram*1024}&disk=${disk*1024}&cpu=${cpu*100}&location=${location}`;
+              };
+            </script>
+          </div>
+          <% } else { %>
+          <div class="text-center md:mt-[30vh]">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mx-auto h-12 w-12 text-amber-500">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+            </svg>
+            <h3 class="mt-4 text-md font-semibold tracking-tight text-gray-900">Insufficient resources</h3>
+            <p class="mt-1 text-xs text-gray-500">You need at least 1 GiB memory in order to deploy a server.</p>
+            <div class="mt-6">
+              <a href="../servers" type="button" class="transition inline-flex items-center rounded-full bg-white px-6 py-1.5 text-xs font-light text-gray-700 hover:text-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ml-0.5 mr-1.5 h-4 w-4 text-gray-800">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+                Back
+              </a>
+            </div>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </main>
+    <%- include('../components/footer') %>
+  </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.js" integrity="sha512-eOUPKZXJTfgptSYQqVilRmxUNYm0XVHwcRHD4mdtCLWf/fC9XWe98IT8H1xzBkLL4Mo9GL0xWMSJtgS5te9rQA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>

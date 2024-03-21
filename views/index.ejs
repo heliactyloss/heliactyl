@@ -1,0 +1,45 @@
+<html class="h-full">
+
+<head>
+  <title><%= settings.name %></title>
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.png">
+  <link rel="stylesheet" href="../assets/tailwind.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://unpkg.com/@popperjs/core@2.10.1/dist/umd/popper.min.js"></script>
+
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="h-full bg-gray-100 p-12" style="font-family: 'Inter'">
+  <div class="flex min-h-full flex-col justify-center items-center">
+    <% if (req.query.err && req.query.err == "none") { %>
+    <div class="rounded-3xl bg-gray-50 p-8 mb-5">
+      <div class="flex sm:mx-auto sm:w-full sm:max-w-sm">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-emerald-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-md font-medium tracking-tight text-gray-700">Signed out</h3>
+          <div class="mt-1 text-sm text-gray-500">
+            <p>You have signed out of your account.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% } %>
+    <div class="bg-white min-w-md px-32 py-12 rounded-3xl">
+      <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+        <h2 class="mt-5 text-center text-2xl font-semibold leading-9 tracking-tighter text-gray-700 mb-2">Welcome back!</h2>
+        <h2 class="text-center text-sm font-light tracking-tight text-gray-500">How would you like to sign in?</h2>
+      </div>
+
+      <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm flex-col items-center justify-center">
+        <a href="../login" type="submit" class="w-full text-center justify-center flex transition inline-flex items-center rounded-2xl bg-gray-200 px-8 py-2 text-sm font-medium text-gray-600 hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">Sign in using Discord</a>
+      </div>
+    </div>
+  </div>
+</body>

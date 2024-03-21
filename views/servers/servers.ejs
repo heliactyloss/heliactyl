@@ -1,0 +1,176 @@
+<head>
+  <title><%= settings.name %></title>
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.png">
+  <link rel="stylesheet" href="../assets/tailwind.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://unpkg.com/@popperjs/core@2.10.1/dist/umd/popper.min.js"></script>
+
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100" style="font-family: 'Inter', sans-serif;">
+  <%- include('../components/navigation') %>
+  <div class="md:pl-48 flex flex-col flex-1 h-screen">
+    <main class="flex-1 pb-32">
+      <div class="py-6">
+        <!-- Skeleton loader -->
+        <%- include('../components/skeleton') %>
+        <div class="hidden max-w-7xl pt-8 mx-auto px-4 sm:px-6 md:px-8" id="content">
+          <div class="lg:flex lg:items-center lg:justify-between rounded-3xl mb-8">
+            <div class="min-w-0 flex-1">
+              <div class="flex">
+                <div class="relative">
+                  <div class="bg-gray-200 rounded-2xl h-11 w-11 text-center flex text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mt-3 ml-3">
+                      <path d="M4.08 5.227A3 3 0 0 1 6.979 3H17.02a3 3 0 0 1 2.9 2.227l2.113 7.926A5.228 5.228 0 0 0 18.75 12H5.25a5.228 5.228 0 0 0-3.284 1.153L4.08 5.227Z" />
+                      <path fill-rule="evenodd" d="M5.25 13.5a3.75 3.75 0 1 0 0 7.5h13.5a3.75 3.75 0 1 0 0-7.5H5.25Zm10.5 4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm3.75-.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
+                <div class="relative ml-4">
+                  <h2 class="text-xl font-semibold text-gray-700 sm:truncate tracking-tight">Servers</h2>
+                  <p class="text-xs font-thin text-gray-500">View a list of servers on your account.</p>
+                </div>
+              </div>
+            </div>
+            <div class="mt-5 flex lg:ml-4 lg:mt-0">
+              <span class="sm:ml-3 mr-3">
+                <%- include('../components/buttons/primary.ejs', {
+                    href: '../servers/new',
+                    text: 'Deploy'
+                  }) %>
+              </span>
+            </div>
+          </div>
+          <% if (req.query.err && req.query.err == "CREATED") { %>
+          <div class="rounded-3xl bg-white p-8 mb-5">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-emerald-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div class="ml-3">
+                <h3 class="text-md font-medium tracking-tight text-gray-700">Server deployed</h3>
+                <div class="mt-1 text-sm text-gray-500">
+                  <p>Please allow it a few minutes to install the requested software. You can manage your server via the Panel.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %>
+          <% if (req.query.err && req.query.err == "MODIFIED") { %>
+          <div class="rounded-3xl bg-white p-8 mb-5">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-emerald-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div class="ml-3">
+                <h3 class="text-md font-medium tracking-tight text-gray-700">Server resources changed</h3>
+                <div class="mt-1 text-sm text-gray-500">
+                  <p>Please restart your server to ensure it can use the new resource limits.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %>
+          <% if (req.query.err && req.query.err == "DELETED") { %>
+          <div class="rounded-3xl bg-white p-8 mb-5">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-emerald-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div class="ml-3">
+                <h3 class="text-md font-medium tracking-tight text-gray-700">Server deleted</h3>
+                <div class="mt-1 text-sm text-gray-500">
+                  <p>The server was successfully deleted from the Panel. All resources have been refunded.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %>
+          <% if (pterodactyl.relationships.servers.data.length == 0) { %>
+          <div class="text-center md:mt-[30vh]">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mx-auto h-12 w-12 text-gray-400">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 17.25v-.228a4.5 4.5 0 0 0-.12-1.03l-2.268-9.64a3.375 3.375 0 0 0-3.285-2.602H7.923a3.375 3.375 0 0 0-3.285 2.602l-2.268 9.64a4.5 4.5 0 0 0-.12 1.03v.228m19.5 0a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3m19.5 0a3 3 0 0 0-3-3H5.25a3 3 0 0 0-3 3m16.5 0h.008v.008h-.008v-.008Zm-3 0h.008v.008h-.008v-.008Z" />
+            </svg>
+            <h3 class="mt-4 text-md font-semibold tracking-tight text-gray-900">Create your first server</h3>
+            <p class="mt-1 text-xs text-gray-500">You can deploy a server in just a few seconds.</p>
+            <div class="mt-6">
+              <a href="../servers/new" type="button" class="transition inline-flex items-center rounded-full bg-gray-200 px-6 py-1.5 text-xs font-light text-gray-700 hover:text-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ml-0.5 mr-1.5 h-4 w-4 text-gray-800">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+                Deploy
+              </a>
+            </div>
+          </div>
+          <% } else { %>
+          <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <% for (let i = 0, len = pterodactyl.relationships.servers.data.length; i < len; i++) { %>
+            <div class="px-4 py-5 bg-white rounded-3xl overflow-hidden sm:p-6 lg:p-10">
+              <div class="lg:flex lg:items-center lg:justify-between">
+                <div class="min-w-0 flex-1">
+                  <h2 class="text-lg font-semibold text-gray-700 sm:truncate sm:text-2xl sm:tracking-tight"><%= pterodactyl.relationships.servers.data[i].attributes.name.length > 40 ? pterodactyl.relationships.servers.data[i].attributes.name.slice(0, 40) + "..." : pterodactyl.relationships.servers.data[i].attributes.name %></h2>
+                  <p class="text-sm font-light text-gray-600"><%= pterodactyl.relationships.servers.data[i].attributes.identifier %></p>
+                </div>
+                <div class="mt-5 flex lg:ml-4 lg:mt-0">
+                  <span class="sm:ml-3">
+                    <a href="../edit?id=<%= pterodactyl.relationships.servers.data[i].attributes.id %>" class="transition inline-flex items-center rounded-2xl bg-gray-100 px-8 py-2 text-sm font-medium text-gray-600 hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="-ml-0.5 mr-1.5 h-5 w-5 text-gray-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+                      </svg>
+                      Settings
+                    </a>
+                  </span>
+                </div>
+              </div>
+              <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
+                <!-- Resources -->
+                <div class="px-4 py-5 bg-gray-50 transition hover:bg-gray-100 rounded-3xl overflow-hidden sm:p-6">
+                  <dt class="text-sm font-medium text-gray-500 truncate">CPU Cores</dt>
+                  <dd class="mt-1 text-1xl font-light tracking-tight text-gray-900">
+                    <%= pterodactyl.relationships.servers.data[i].attributes.limits.cpu/100 %>
+                  </dd>
+                </div>
+                <div class="px-4 py-5 bg-gray-50 transition hover:bg-gray-100 rounded-3xl overflow-hidden sm:p-6">
+                  <dt class="text-sm font-medium text-gray-500 truncate">Memory</dt>
+                  <dd class="mt-1 text-1xl font-light tracking-tight text-gray-900">
+                    <%= pterodactyl.relationships.servers.data[i].attributes.limits.memory/1024 %> GiB
+                  </dd>
+                </div>
+                <div class="px-4 py-5 bg-gray-50 transition hover:bg-gray-100 rounded-3xl overflow-hidden sm:p-6">
+                  <dt class="text-sm font-medium text-gray-500 truncate">Storage</dt>
+                  <dd class="mt-1 text-1xl font-light tracking-tight text-gray-900">
+                    <%= pterodactyl.relationships.servers.data[i].attributes.limits.disk/1024 %> GiB
+                  </dd>
+                </div>
+              </dl>
+            </div>
+            <% } %>
+            <% } %>
+            <% if (pterodactyl.relationships.servers.data.length == 1) { %>
+            <div class="px-4 py-5 bg-gray-50 rounded-3xl overflow-hidden sm:p-6 justify-center">
+              <div class="flex flex-col items-center justify-center h-full">
+                <a href="../servers/new" class="transition inline-flex items-center rounded-2xl bg-gray-100 p-4 text-sm font-light text-gray-600 hover:text-gray-900 hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <% } %>
+          </dl>
+        </div>
+      </div>
+    </main>
+    <%- include('../components/footer') %>
+  </div>
+  </div>
+</body>

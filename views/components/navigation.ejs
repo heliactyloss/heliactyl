@@ -1,0 +1,371 @@
+<% 
+/**
+ * Component: Navigation
+ * Filepath: components/navigation.ejs
+ * 
+ * @description This component represents the navigation bar of the application.
+ * It displays different elements based on the value of the 'settings.testing' variable.
+ * If 'settings.testing' is true, it shows a message indicating that the testing phase is active.
+ * The component also includes scripts and stylesheets for external libraries.
+ * It contains a spinner element and a search input field.
+*/
+%>
+
+<!-- Testing mode -->
+<% if (settings.testing == true ) { %>
+<div class="relative isolate flex items-center gap-x-6 overflow-hidden bg-amber-500 px-6 py-2.5 sm:px-3.5 sm:before:flex-1 z-index">
+  <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+    <p class="text-sm leading-6 font-medium text-amber-900">
+      <strong class="font-semibold">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-amber-900 mr-2 inline-flex">
+          <path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" />
+        </svg>
+        Testing phase active
+      </strong><svg viewBox="0 0 2 2" class="mx-2 inline h-0.5 w-0.5 fill-current" aria-hidden="true">
+        <circle cx="1" cy="1" r="1" />
+      </svg>
+      You are currently accessing this dashboard as a tester. Please report any bugs.
+    </p>
+  </div>
+  <div class="flex flex-1 justify-end">
+  </div>
+</div>
+<% } %>
+
+<!-- Begin loading page content, load styles and CDN links -->
+<script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/nanobar/0.4.2/nanobar.js"></script>
+<style>
+  .alertify-notifier .ajs-message.ajs-success {
+    color: #71747a;
+    padding: 13px 7px;
+    background: #e5e7eb;
+    border-radius: 24px;
+    text-align: center;
+    font-weight: 500;
+  }
+</style>
+<style>
+  .spinner {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    border: 3px solid #474c55;
+    border-radius: 50%;
+    border-top: 3px solid white;
+    width: 22px;
+    height: 22px;
+    -webkit-animation: spin 0.5s linear infinite;
+    /* Safari */
+    animation: spin 0.5s linear infinite;
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% {
+      -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+<div id="spinner" class="spinner mt-2 mr-2"></div>
+<!-- Static sidebar for desktop -->
+<div class="<% if (settings.testing == true) { %>mt-12 <% } %> md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
+  <!-- This is so that the testing alert isn't in the way of the sidebar -->
+  <!-- Sidebar component, swap this element with another sidebar if you like -->
+  <div class="flex-1 flex flex-col min-h-0 bg-gray-100 border-r border-gray-200">
+    <div class="flex-1 flex flex-col p-4 overflow-y-auto">
+      <nav class="navbar-nav flex-1 px-2 space-y-1">
+        <div class="mb-4 flex">
+          <span class="text-gray-700 text-lg font-semibold tracking-tight mt-2 mb-2"><%= settings.name %></span>
+        </div>
+        <div class="flex-shrink-0 flex shadow bg-gray-100 border border-gray-300/70 rounded-3xl p-4">
+          <a href="#" class="flex-shrink-0 w-full group block">
+            <div class="flex items-center">
+              <div>
+                <img class="inline-block h-9 w-9 rounded-xl" src="https://cdn.discordapp.com/avatars/<%= userinfo.id %>/<%= userinfo.avatar %>?size=256" alt="">
+              </div>
+              <div class="ml-3">
+                <p class="text-sm font-semibold text-gray-800"><%= userinfo.global_name %></p>
+                <p class="text-xs font-medium text-gray-400 group-hover:text-gray-500 transition">
+                  <% if (typeof packagename.charAt(0) == 'number') { %>
+                  <%= packagename %> plan
+                  <% } else { %>
+                  <%= packagename.charAt(0).toUpperCase() + packagename.slice(1) %> plan
+                  <% } %>
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="pt-4">
+          <div class="relative mt-1 flex items-center">
+            <input placeholder="Search..." id="miniSearchInput" type="text" name="search" id="search" class="block w-full shadow bg-gray-100 border border-gray-300/70 rounded-2xl pr-12 focus:border-gray-500 transition focus:ring-gray-500 sm:text-sm">
+            <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
+              <a id="miniSearchButton" class="cursor-pointer inline-flex items-center rounded-l-lg hover:bg-gray-200 transition rounded-r-xl border border-gray-300 pr-2.5 pl-2 font-sans text-sm font-medium text-gray-400">/</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="pb-4"></div>
+        <a href="../dashboard" class="nav-link transition text-gray-600 hover:bg-gray-200 backdrop-blur hover:text-gray-800 group flex items-center px-4 py-2 text-sm font-medium rounded-xl">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 mr-2 text-gray-500">
+            <path d="M7.628 1.099a.75.75 0 0 1 .744 0l5.25 3a.75.75 0 0 1 0 1.302l-5.25 3a.75.75 0 0 1-.744 0l-5.25-3a.75.75 0 0 1 0-1.302l5.25-3Z" />
+            <path d="m2.57 7.24-.192.11a.75.75 0 0 0 0 1.302l5.25 3a.75.75 0 0 0 .744 0l5.25-3a.75.75 0 0 0 0-1.303l-.192-.11-4.314 2.465a2.25 2.25 0 0 1-2.232 0L2.57 7.239Z" />
+            <path d="m2.378 10.6.192-.11 4.314 2.464a2.25 2.25 0 0 0 2.232 0l4.314-2.465.192.11a.75.75 0 0 1 0 1.303l-5.25 3a.75.75 0 0 1-.744 0l-5.25-3a.75.75 0 0 1 0-1.303Z" />
+          </svg>
+          Dashboard
+        </a>
+        <a href="../servers" class="nav-link transition text-gray-600 hover:bg-gray-200 backdrop-blur hover:text-gray-800 group flex items-center px-4 py-2 text-sm font-medium rounded-xl">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 mr-2 text-gray-500">
+            <path d="M3.665 3.588A2 2 0 0 1 5.622 2h4.754a2 2 0 0 1 1.958 1.588l1.098 5.218a3.487 3.487 0 0 0-1.433-.306H4c-.51 0-.995.11-1.433.306l1.099-5.218Z" />
+            <path fill-rule="evenodd" d="M4 10a2 2 0 1 0 0 4h8a2 2 0 1 0 0-4H4Zm8 2.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM9.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" clip-rule="evenodd" />
+          </svg>
+          Servers
+        </a>
+        <a href="../profile" class="nav-link transition text-gray-600 hover:bg-gray-200 backdrop-blur hover:text-gray-800 group flex items-center px-4 py-2 text-sm font-medium rounded-xl">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-2 text-gray-500">
+            <path d="M7 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM14.5 9a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM1.615 16.428a1.224 1.224 0 0 1-.569-1.175 6.002 6.002 0 0 1 11.908 0c.058.467-.172.92-.57 1.174A9.953 9.953 0 0 1 7 18a9.953 9.953 0 0 1-5.385-1.572ZM14.5 16h-.106c.07-.297.088-.611.048-.933a7.47 7.47 0 0 0-1.588-3.755 4.502 4.502 0 0 1 5.874 2.636.818.818 0 0 1-.36.98A7.465 7.465 0 0 1 14.5 16Z" />
+          </svg>
+          Profile
+        </a>
+        <a href="../security" class="nav-link transition text-gray-600 hover:bg-gray-200 backdrop-blur hover:text-gray-800 group flex items-center px-4 py-2 text-sm font-medium rounded-xl">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-2 text-gray-500">
+            <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 0 0-4.5 4.5V9H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-.5V5.5A4.5 4.5 0 0 0 10 1Zm3 8V5.5a3 3 0 1 0-6 0V9h6Z" clip-rule="evenodd" />
+          </svg>
+          Security
+        </a>
+        <a href="../afk" class="nav-link transition text-gray-600 hover:bg-gray-200 backdrop-blur hover:text-gray-800 flex items-center px-4 py-2 text-sm font-medium rounded-xl">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 mr-2 text-gray-500">
+            <path fill-rule="evenodd" d="M3.75 3.5c0 .563.186 1.082.5 1.5H2a1 1 0 0 0 0 2h5.25V5h1.5v2H14a1 1 0 1 0 0-2h-2.25A2.5 2.5 0 0 0 8 1.714 2.5 2.5 0 0 0 3.75 3.5Zm3.499 0v-.038A1 1 0 1 0 6.25 4.5h1l-.001-1Zm2.5-1a1 1 0 0 0-1 .962l.001.038v1h.999a1 1 0 0 0 0-2Z" clip-rule="evenodd" />
+            <path d="M7.25 8.5H2V12a2 2 0 0 0 2 2h3.25V8.5ZM8.75 14V8.5H14V12a2 2 0 0 1-2 2H8.75Z" />
+          </svg>
+          AFK Page
+        </a>
+        <a href="../transfer" class="nav-link transition text-gray-600 hover:bg-gray-200 backdrop-blur hover:text-gray-800 group flex items-center px-4 py-2 text-sm font-medium rounded-xl">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 mr-2 text-gray-500">
+            <path d="M2.87 2.298a.75.75 0 0 0-.812 1.021L3.39 6.624a1 1 0 0 0 .928.626H8.25a.75.75 0 0 1 0 1.5H4.318a1 1 0 0 0-.927.626l-1.333 3.305a.75.75 0 0 0 .811 1.022 24.89 24.89 0 0 0 11.668-5.115.75.75 0 0 0 0-1.175A24.89 24.89 0 0 0 2.869 2.298Z" />
+          </svg>
+          Transfer
+        </a>
+        <a href="../store" class="nav-link transition text-gray-600 hover:bg-gray-200 backdrop-blur hover:text-gray-800 group flex items-center px-4 py-2 text-sm font-medium rounded-xl">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-2 text-gray-500">
+            <path fill-rule="evenodd" d="M6 5v1H4.667a1.75 1.75 0 0 0-1.743 1.598l-.826 9.5A1.75 1.75 0 0 0 3.84 19H16.16a1.75 1.75 0 0 0 1.743-1.902l-.826-9.5A1.75 1.75 0 0 0 15.333 6H14V5a4 4 0 0 0-8 0Zm4-2.5A2.5 2.5 0 0 0 7.5 5v1h5V5A2.5 2.5 0 0 0 10 2.5ZM7.5 10a2.5 2.5 0 0 0 5 0V8.75a.75.75 0 0 1 1.5 0V10a4 4 0 0 1-8 0V8.75a.75.75 0 0 1 1.5 0V10Z" clip-rule="evenodd" />
+          </svg>
+          Store
+        </a>
+        <% if (pterodactyl.root_admin == true) { %>
+        <a href="../admin" class="nav-link transition text-gray-600 hover:bg-gray-200 backdrop-blur hover:text-gray-800 flex items-center px-4 py-2 text-sm font-medium rounded-xl">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-2 text-gray-500">
+            <path fill-rule="evenodd" d="M4.25 2A2.25 2.25 0 0 0 2 4.25v11.5A2.25 2.25 0 0 0 4.25 18h11.5A2.25 2.25 0 0 0 18 15.75V4.25A2.25 2.25 0 0 0 15.75 2H4.25Zm4.03 6.28a.75.75 0 0 0-1.06-1.06L4.97 9.47a.75.75 0 0 0 0 1.06l2.25 2.25a.75.75 0 0 0 1.06-1.06L6.56 10l1.72-1.72Zm4.5-1.06a.75.75 0 1 0-1.06 1.06L13.44 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06l2.25-2.25a.75.75 0 0 0 0-1.06l-2.25-2.25Z" clip-rule="evenodd" />
+          </svg>              
+          Admin
+        </a>
+        <% } %>
+      </nav>
+      <div class="flex-shrink-0 flex shadow bg-gray-100 border border-gray-300/70 rounded-2xl px-3 py-2 mt-4 transition justify-between">
+        <div class="flex items-center">
+          <p class="text-xs font-medium text-gray-500 tracking-tight"><%= coins.toFixed(2) %> credit<%= coins == 1 ? "" : "s" %></p>
+        </div>
+        <a href="../logout" class="text-xs bg-gray-200 rounded-full py-1 px-4 text-gray-600 flex items-center hover:bg-gray-300 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-gray-500 inline-flex mr-1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+          </svg>
+          Sign out
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Search system -->
+<%- include('../components/search') %>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var currentPageUrl = window.location.href;
+
+    // Get all navigation links
+    var navLinks = document.querySelectorAll('.nav-link');
+
+    // Loop through each navigation link
+    navLinks.forEach(function(link) {
+      // Get the href attribute of the link
+      var linkUrl = link.getAttribute('href');
+
+      // Check if the current page URL contains the link URL
+      if (currentPageUrl.includes(linkUrl.replace('../', '/'))) {
+        // Remove all existing classes
+        link.className = 'nav-link';
+
+        // Add the specified classes
+        link.classList.add(
+          'transition',
+          'text-gray-900',
+          'bg-gray-200',
+          'backdrop-blur',
+          'group',
+          'flex',
+          'items-center',
+          'px-4',
+          'py-2',
+          'text-sm',
+          'font-semibold',
+          'rounded-xl'
+        );
+      }
+    });
+  });
+</script>
+<script>
+  var options = {
+    classname: 'loadingbar',
+    id: 'loadingbar'
+  };
+  var nanobar = new Nanobar(options);
+  // Show the spinner with a smooth transition
+  var spinner = document.getElementById('spinner');
+  spinner.style.opacity = '1';
+  // Simulate a slower loading progress
+  function simulateLoading() {
+    nanobar.go(10); // Change this value to control the loading speed
+    setTimeout(function() {
+      nanobar.go(50);
+    }, 190); // Delay the progress update
+    setTimeout(function() {
+      nanobar.go(100);
+      // Hide the spinner with a smooth transition
+      spinner.style.opacity = '0';
+    }, 400); // Another delay
+  }
+  simulateLoading();
+</script>
+<style>
+  .loadingbar .bar {
+    background: #515661;
+    -webkit-box-shadow: 0px 4px 38px -15px rgba(0, 0, 0, 0.87);
+    -moz-box-shadow: 0px 4px 38px -15px rgba(0, 0, 0, 0.87);
+    box-shadow: 0px 4px 38px -15px rgba(0, 0, 0, 0.87);
+    height: 1.85px;
+  }
+</style>
+<style>
+  #skeleton-loader {
+    display: none;
+  }
+
+  #skeleton-loader.active {
+    display: block;
+  }
+</style>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Get references to the skeleton loader and content elements
+    const skeletonLoader = document.getElementById("skeleton-loader");
+    const content = document.getElementById("content");
+
+    // Function to show the skeleton loader and hide the content
+    function showSkeletonLoader() {
+      skeletonLoader.classList.add("active");
+      content.style.display = "none";
+    }
+
+    // Function to hide the skeleton loader and show the content
+    function hideSkeletonLoader() {
+      skeletonLoader.classList.remove("active");
+      content.style.display = "block";
+    }
+
+    // Show the skeleton loader immediately (initial state)
+    showSkeletonLoader();
+    setTimeout(hideSkeletonLoader, 250);
+  });
+</script>
+<style>
+  .hidden {
+    display: none;
+  }
+
+  .modal {
+    display: none;
+    /* Initially hide the modal */
+    position: fixed;
+    z-index: 50;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .newAccountModal {
+    position: fixed;
+    z-index: 50;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .newAccountContent {
+    transition: opacity 0.2s ease-in-out;
+    /* Added transition for opacity */
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 48px;
+    width: 30%;
+    border-radius: 24px;
+  }
+
+  .modal-content {
+    opacity: 0;
+    /* Initially hide the modal content */
+    transition: opacity 0.2s ease-in-out;
+    /* Added transition for opacity */
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 48px;
+    width: 30%;
+    border-radius: 24px;
+  }
+
+  @media (max-width: 768px) {
+    .modal-content {
+      width: 80%;
+    }
+  }
+
+  .modal.show {
+    display: block;
+    /* Show the modal when it has the 'show' class */
+  }
+
+  .modal-content.visible {
+    opacity: 1;
+    /* Show the modal content when it has the 'visible' class */
+  }
+</style>

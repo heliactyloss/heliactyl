@@ -1,0 +1,213 @@
+<head>
+  <title><%= settings.name %></title>
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.png">
+  <link rel="stylesheet" href="../assets/tailwind.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://unpkg.com/@popperjs/core@2.10.1/dist/umd/popper.min.js"></script>
+
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100" style="font-family: 'Inter', sans-serif;">
+  <div>
+    <%- include('../components/navigation') %>
+    <div class="md:pl-48 flex flex-col flex-1 h-screen">
+      <main class="flex-1 pb-32">
+        <div class="py-6">
+          <!-- Skeleton loader -->
+          <%- include('../components/skeleton') %>
+          <div class="hidden max-w-7xl pt-8 mx-auto px-4 sm:px-6 md:px-8" id="content">
+            <!-- Replace with your content -->
+            <div class="lg:flex lg:items-center lg:justify-between rounded-3xl mb-8">
+              <div class="min-w-0 flex-1">
+                <div class="flex">
+                  <div class="relative">
+                    <div class="bg-gray-200 rounded-2xl h-11 w-11 text-center flex text-gray-400">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mt-3 ml-3">
+                        <path fill-rule="evenodd" d="M7.5 6v.75H5.513c-.96 0-1.764.724-1.865 1.679l-1.263 12A1.875 1.875 0 0 0 4.25 22.5h15.5a1.875 1.875 0 0 0 1.865-2.071l-1.263-12a1.875 1.875 0 0 0-1.865-1.679H16.5V6a4.5 4.5 0 1 0-9 0ZM12 3a3 3 0 0 0-3 3v.75h6V6a3 3 0 0 0-3-3Zm-3 8.25a3 3 0 1 0 6 0v-.75a.75.75 0 0 1 1.5 0v.75a4.5 4.5 0 1 1-9 0v-.75a.75.75 0 0 1 1.5 0v.75Z" clip-rule="evenodd" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="relative ml-4">
+                    <h2 class="text-xl font-semibold text-gray-700 sm:truncate tracking-tight">Store</h2>
+                    <p class="text-xs font-thin text-gray-500">Use your credits to purchase resources.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% if (req.query.err) { %>
+            <% if (req.query.err == "none") { %>
+            <div class="rounded-3xl bg-white p-8 mb-5">
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  <svg class="h-5 w-5 text-emerald-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+                <div class="ml-3">
+                  <h3 class="text-md font-medium tracking-tight text-gray-700">Resources purchased</h3>
+                  <div class="mt-1 text-sm text-gray-500">
+                    <p>You can now edit one of your servers and add the extra resources.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% } else { %>
+            <div class="rounded-3xl bg-white p-8 mb-5">
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 text-amber-400">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div class="ml-3">
+                  <h3 class="text-md font-medium tracking-tight text-gray-700">An error was encountered</h3>
+                  <div class="mt-1 text-sm text-gray-500">
+                    <p>Error code: <code><%= req.query.err %></code></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% } %>
+            <% } %>
+            <!-- This example requires Tailwind CSS v2.0+ -->
+            <div>
+              <dl class="mt-5 grid grid-cols-1 rounded-lg bg-gray-100 overflow-hidden md:grid-cols-4 gap-5">
+                <div class="px-4 py-5 sm:p-6 lg:p-8 bg-white rounded-3xl">
+                  <dt class="text-sm tracking-tight font-medium text-gray-600"><%= settings.api.client.coins.store.ram.per/1024 %> GiB Memory per <%= settings.api.client.coins.store.ram.cost %> credit<%= settings.api.client.coins.store.ram.cost == 1 ? "" : "s" %>.</dt>
+                  <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+                    <div class="mt-1 flex rounded-md">
+                      <form action="javascript:void(0);">
+                        <select id="ram" name="amount" class="mt-3 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-full text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" class="select-selected">
+                          <option value=1><%= settings.api.client.coins.store.ram.per/1024 %> GiB Memory - <%= settings.api.client.coins.store.ram.cost %> credit<%= settings.api.client.coins.store.ram.cost == 1 ? "" : "s" %></option>
+                          <option value=2><%= settings.api.client.coins.store.ram.per/1024 * 2 %> GiB Memory - <%= settings.api.client.coins.store.ram.cost * 2 %> credits</option>
+                          <option value=3><%= settings.api.client.coins.store.ram.per/1024 * 3 %> GiB Memory - <%= settings.api.client.coins.store.ram.cost * 3 %> credits</option>
+                          <option value=4><%= settings.api.client.coins.store.ram.per/1024 * 4 %> GiB Memory - <%= settings.api.client.coins.store.ram.cost * 4 %> credits</option>
+                          <option value=5><%= settings.api.client.coins.store.ram.per/1024 * 5 %> GiB Memory - <%= settings.api.client.coins.store.ram.cost * 5 %> credits</option>
+                          <option value=6><%= settings.api.client.coins.store.ram.per/1024* 6 %> GiB Memory - <%= settings.api.client.coins.store.ram.cost * 6 %> credits</option>
+                          <option value=7><%= settings.api.client.coins.store.ram.per/1024 * 7 %> GiB Memory - <%= settings.api.client.coins.store.ram.cost * 7 %> credits</option>
+                          <option value=8><%= settings.api.client.coins.store.ram.per/1024 * 8 %> GiB Memory - <%= settings.api.client.coins.store.ram.cost * 8 %> credits</option>
+                          <option value=9><%= settings.api.client.coins.store.ram.per/1024 * 9 %> GiB Memory - <%= settings.api.client.coins.store.ram.cost * 9 %> credits</option>
+                          <option value=10><%= settings.api.client.coins.store.ram.per/1024 * 10 %> GiB Memory - <%= settings.api.client.coins.store.ram.cost * 10 %> credits</option>
+                        </select>
+                        <br>
+                        <button onclick="buyRAM()" type="submit" class="transition inline-flex items-center rounded-2xl bg-gray-200 px-8 py-2 text-sm font-medium text-gray-600 hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
+                          Purchase
+                        </button>
+                      </form>
+                    </div>
+                  </dd>
+                </div>
+
+                <div class="px-4 py-5 sm:p-6 lg:p-8 bg-white rounded-3xl">
+                  <dt class="text-sm tracking-tight font-medium text-gray-600"><%= settings.api.client.coins.store.cpu.per/100 %> CPU Cores per <%= settings.api.client.coins.store.cpu.cost %> credit<%= settings.api.client.coins.store.cpu.cost == 1 ? "" : "s" %>.</dt>
+                  <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+                    <div class="mt-1 flex rounded-md">
+                      <form action="javascript:void(0);">
+                        <select id="cpu" name="amount" class="mt-3 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-full text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" class="select-selected">
+                          <option value=1><%= settings.api.client.coins.store.cpu.per/100 %> CPU Cores - <%= settings.api.client.coins.store.cpu.cost %> credit<%= settings.api.client.coins.store.cpu.cost == 1 ? "" : "s" %></option>
+                          <option value=2><%= settings.api.client.coins.store.cpu.per/100 * 2 %> CPU Cores - <%= settings.api.client.coins.store.cpu.cost * 2 %> credits</option>
+                          <option value=3><%= settings.api.client.coins.store.cpu.per/100 * 3 %> CPU Cores - <%= settings.api.client.coins.store.cpu.cost * 3 %> credits</option>
+                          <option value=4><%= settings.api.client.coins.store.cpu.per/100 * 4 %> CPU Cores - <%= settings.api.client.coins.store.cpu.cost * 4 %> credits</option>
+                          <option value=5><%= settings.api.client.coins.store.cpu.per/100 * 5 %> CPU Cores - <%= settings.api.client.coins.store.cpu.cost * 5 %> credits</option>
+                          <option value=6><%= settings.api.client.coins.store.cpu.per/100* 6 %> CPU Cores - <%= settings.api.client.coins.store.cpu.cost * 6 %> credits</option>
+                          <option value=7><%= settings.api.client.coins.store.cpu.per/100 * 7 %> CPU Cores - <%= settings.api.client.coins.store.cpu.cost * 7 %> credits</option>
+                          <option value=8><%= settings.api.client.coins.store.cpu.per/100 * 8 %> CPU Cores - <%= settings.api.client.coins.store.cpu.cost * 8 %> credits</option>
+                          <option value=9><%= settings.api.client.coins.store.cpu.per/100 * 9 %> CPU Cores - <%= settings.api.client.coins.store.cpu.cost * 9 %> credits</option>
+                          <option value=10><%= settings.api.client.coins.store.cpu.per/100 * 10 %> CPU Cores - <%= settings.api.client.coins.store.cpu.cost * 10 %> credits</option>
+                        </select>
+                        <br>
+                        <button onclick="buyCPU()" type="submit" class="transition inline-flex items-center rounded-2xl bg-gray-200 px-8 py-2 text-sm font-medium text-gray-600 hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
+                          Purchase
+                        </button>
+                      </form>
+                    </div>
+                  </dd>
+                </div>
+
+                <div class="px-4 py-5 sm:p-6 lg:p-8 bg-white rounded-3xl">
+                  <dt class="text-sm tracking-tight font-medium text-gray-600"><%= settings.api.client.coins.store.disk.per/1024 %> GiB Storage per <%= settings.api.client.coins.store.disk.cost %> credit<%= settings.api.client.coins.store.disk.cost == 1 ? "" : "s" %>.</dt>
+                  <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+                    <div class="mt-1 flex rounded-md">
+                      <form action="javascript:void(0);">
+                        <select id="disk" name="amount" class="mt-3 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-full text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" class="select-selected">
+                          <option value=1><%= settings.api.client.coins.store.disk.per/1024 %> GiB Storage - <%= settings.api.client.coins.store.disk.cost %> credit<%= settings.api.client.coins.store.disk.cost == 1 ? "" : "s" %></option>
+                          <option value=2><%= settings.api.client.coins.store.disk.per/1024 * 2 %> GiB Storage - <%= settings.api.client.coins.store.disk.cost * 2 %> credits</option>
+                          <option value=3><%= settings.api.client.coins.store.disk.per/1024 * 3 %> GiB Storage- <%= settings.api.client.coins.store.disk.cost * 3 %> credits</option>
+                          <option value=4><%= settings.api.client.coins.store.disk.per/1024 * 4 %> GiB Storage - <%= settings.api.client.coins.store.disk.cost * 4 %> credits</option>
+                          <option value=5><%= settings.api.client.coins.store.disk.per/1024 * 5 %> GiB Storage - <%= settings.api.client.coins.store.disk.cost * 5 %> credits</option>
+                          <option value=6><%= settings.api.client.coins.store.disk.per/1024 * 6 %> GiB Storage - <%= settings.api.client.coins.store.disk.cost * 6 %> credits</option>
+                          <option value=7><%= settings.api.client.coins.store.disk.per/1024 * 7 %> GiB Storage - <%= settings.api.client.coins.store.disk.cost * 7 %> credits</option>
+                          <option value=8><%= settings.api.client.coins.store.disk.per/1024 * 8 %> GiB Storage - <%= settings.api.client.coins.store.disk.cost * 8 %> credits</option>
+                          <option value=9><%= settings.api.client.coins.store.disk.per/1024 * 9 %> GiB Storage - <%= settings.api.client.coins.store.disk.cost * 9 %> credits</option>
+                          <option value=10><%= settings.api.client.coins.store.disk.per/1024 * 10 %> GiB Storage - <%= settings.api.client.coins.store.disk.cost * 10 %> credits</option>
+                        </select>
+                        <br>
+                        <button onclick="buyDisk()" type="submit" class="transition inline-flex items-center rounded-2xl bg-gray-200 px-8 py-2 text-sm font-medium text-gray-600 hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
+                          Purchase
+                        </button>
+                      </form>
+                    </div>
+                  </dd>
+                </div>
+                
+                <div class="px-4 py-5 sm:p-6 lg:p-8 bg-white rounded-3xl">
+                  <dt class="text-sm tracking-tight font-medium text-gray-600"><%= settings.api.client.coins.store.servers.per %> Servers per <%= settings.api.client.coins.store.servers.cost %> credit<%= settings.api.client.coins.store.servers.cost == 1 ? "" : "s" %>.</dt>
+                  <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+                    <div class="mt-1 flex rounded-md">
+                      <form action="javascript:void(0);">
+                        <select id="servers" name="amount" class="mt-3 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-full text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" class="select-selected">
+                          <option value=1><%= settings.api.client.coins.store.servers.per %> Servers - <%= settings.api.client.coins.store.servers.cost %> credit<%= settings.api.client.coins.store.servers.cost == 1 ? "" : "s" %></option>
+                          <option value=2><%= settings.api.client.coins.store.servers.per * 2 %> Servers - <%= settings.api.client.coins.store.servers.cost * 2 %> credits</option>
+                          <option value=3><%= settings.api.client.coins.store.servers.per * 3 %> Servers- <%= settings.api.client.coins.store.servers.cost * 3 %> credits</option>
+                          <option value=4><%= settings.api.client.coins.store.servers.per * 4 %> Servers - <%= settings.api.client.coins.store.servers.cost * 4 %> credits</option>
+                          <option value=5><%= settings.api.client.coins.store.servers.per * 5 %> Servers - <%= settings.api.client.coins.store.servers.cost * 5 %> credits</option>
+                          <option value=6><%= settings.api.client.coins.store.servers.per * 6 %> Servers - <%= settings.api.client.coins.store.servers.cost * 6 %> credits</option>
+                          <option value=7><%= settings.api.client.coins.store.servers.per * 7 %> Servers - <%= settings.api.client.coins.store.servers.cost * 7 %> credits</option>
+                          <option value=8><%= settings.api.client.coins.store.servers.per * 8 %> Servers - <%= settings.api.client.coins.store.servers.cost * 8 %> credits</option>
+                          <option value=9><%= settings.api.client.coins.store.servers.per * 9 %> Servers - <%= settings.api.client.coins.store.servers.cost * 9 %> credits</option>
+                          <option value=10><%= settings.api.client.coins.store.servers.per * 10 %> Servers - <%= settings.api.client.coins.store.servers.cost * 10 %> credits</option>
+                        </select>
+                        <br>
+                        <button onclick="buyServers()" type="submit" class="transition inline-flex items-center rounded-2xl bg-gray-200 px-8 py-2 text-sm font-medium text-gray-600 hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
+                          Purchase
+                        </button>
+                      </form>
+                    </div>
+                  </dd>
+                </div>
+            </div>
+            </dl>
+            <script>
+              async function buyRAM() {
+                let amount = encodeURIComponent(document.getElementById("ram").value);
+                document.location.href = `/buy?type=ram&amount=${amount}`;
+              };
+
+              async function buyDisk() {
+                let amount = encodeURIComponent(document.getElementById("disk").value);
+                document.location.href = `/buy?type=disk&amount=${amount}`;
+              };
+
+              async function buyServers() {
+                let amount = encodeURIComponent(document.getElementById("servers").value);
+                document.location.href = `/buy?type=servers&amount=${amount}`;
+              };
+
+              async function buyCPU() {
+                let amount = encodeURIComponent(document.getElementById("cpu").value);
+                document.location.href = `/buy?type=cpu&amount=${amount}`;
+              };
+            </script>
+
+
+
+          </div>
+        </div>
+      </main>
+      <%- include('../components/footer') %>
+    </div>
+  </div>
+</body>

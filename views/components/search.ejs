@@ -1,0 +1,130 @@
+<div id="searchModal" class="modal">
+  <div class="modal-content">
+    <div class="flex mb-6">
+        <div class="relative">
+           <div class="bg-gray-100 rounded-2xl h-11 w-11 text-center flex text-gray-400">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mt-3 ml-3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+              </svg>              
+           </div>
+        </div>
+        <div class="relative ml-4">
+           <h2 class="text-xl font-medium text-gray-700 sm:truncate tracking-tight">Search</h2>
+           <p class="text-xs font-thin text-gray-500">Search for a specific page.</p>
+        </div>
+     </div>
+    <input type="text" id="searchInput" class="w-full px-6 py-3 bg-white border-none shadow-sm text-sm font-medium tracking-tight text-gray-700 rounded-2xl focus:outline-none focus:ring-1 focus:ring-gray-200 transition" placeholder="Search..." />
+    <div id="searchResults" class="space-y-2"></div>
+  </div>
+</div>
+
+<script>
+  // Get references to the necessary elements
+  const searchModal = document.getElementById('searchModal');
+  const modalContent = document.querySelector('.modal-content');
+  const searchInput = document.getElementById('searchInput');
+  const searchResults = document.getElementById('searchResults');
+  const navLinks = document.querySelectorAll('.nav-link');
+  let selected = '';
+
+  // Open the search modal when the forward slash key is pressed
+  document.addEventListener('keydown', (event) => {
+    if (event.key === '/') {
+      event.preventDefault(); // Prevent '/' from being inserted into the input
+      searchModal.classList.add('show');
+      setTimeout(() => {
+        modalContent.classList.add('visible');
+        searchInput.focus();
+      }, 50); // Delay to ensure the modal is fully visible before focusing
+    }
+  });
+
+  window.addEventListener('click', (event) => {
+    if (event.target === searchModal) {
+      modalContent.classList.remove('visible');
+      setTimeout(() => {
+        searchModal.classList.remove('show');
+      }, 300); // Duration of the fade-out transition
+    }
+  });
+
+  // Filter the navigation links based on the search input
+  searchInput.addEventListener('input', () => {
+    const searchTerm = searchInput.value.toLowerCase();
+    const filteredLinks = Array.from(navLinks).filter((link) => link.textContent.toLowerCase().includes(searchTerm));
+    searchResults.innerHTML = '';
+    if (filteredLinks.length === 0) {
+      const noResultsMessage = document.createElement('p');
+      noResultsMessage.textContent = 'No results found.';
+      noResultsMessage.classList.add('text-gray-400', 'text-sm', 'mt-4');
+      searchResults.appendChild(noResultsMessage);
+    } else {
+      filteredLinks.forEach((link, index) => {
+        const resultLink = document.createElement('a');
+        resultLink.href = link.href;
+        resultLink.textContent = link.textContent;
+        resultLink.classList.add(
+          'nav-link',
+          'transition',
+          'text-gray-600',
+          'hover:bg-gray-200',
+          'backdrop-blur',
+          'hover:text-gray-800',
+          'group',
+          'flex',
+          'items-center',
+          'px-4',
+          'py-2',
+          'text-sm',
+          'font-medium',
+          'rounded-xl',
+        );
+        if (index === 0) {
+          selected = resultLink.href;
+          resultLink.classList.add('bg-gray-200', 'text-gray-900', 'font-semibold', 'searchLinkActive', 'mt-4');
+        }
+        searchResults.appendChild(resultLink);
+      });
+    }
+  });
+
+// Handle Enter key press on the search input
+searchInput.addEventListener("keypress", function(event) {
+  if (event.key === 'Enter') {
+    event.preventDefault(); // Prevent the default Enter key behavior
+    const selectedLink = searchResults.querySelector('.searchLinkActive');
+    if (selectedLink) {
+      selectedLink.click();
+    }
+  }
+});
+
+// Get a reference to the mini search input and button
+const miniSearchInput = document.getElementById('miniSearchInput');
+const miniSearchButton = document.getElementById('miniSearchButton');
+
+// Add event listener to the mini search input
+miniSearchInput.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault(); // Prevent form submission
+    const searchTerm = miniSearchInput.value.trim();
+    if (searchTerm) {
+      searchInput.value = searchTerm;
+      searchModal.classList.add('show');
+      setTimeout(() => {
+        modalContent.classList.add('visible');
+        searchInput.focus();
+      }, 50);
+    }
+  }
+});
+
+// Add event listener to the mini search button
+miniSearchButton.addEventListener('click', () => {
+  searchModal.classList.add('show');
+  setTimeout(() => {
+    modalContent.classList.add('visible');
+    searchInput.focus();
+  }, 50);
+});
+</script>
