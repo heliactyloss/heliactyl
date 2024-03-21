@@ -8,6 +8,9 @@
 > [!NOTE]
 > This version of Heliactyl 14 is built to be clean, fast and stable. It lacks highly specific features such as Linkvertise and Stripe billing but retains all of the functionality of previous Heliactyl releases (v11, v12, v13).
 
+> [!WARNING]  
+> Heliactyl 14 is not compatible with `settings.json` files from v13 or earlier. You can keep the same `database.sqlite` though without having any issues.
+
 Heliactyl is a high-performance client area for the Pterodactyl Panel. It allows your users to create, edit and delete servers, and also earn credits which can be used to upgrade their servers.
 
 ## Get started
