@@ -7,6 +7,8 @@ const log = require("../misc/log");
 
 module.exports.load = async function (app, db) {
   app.get("/buy", async (req, res) => {
+    if (!req.session.pterodactyl) return res.redirect("/login");
+
     let newsettings = await enabledCheck(req, res);
     if (!newsettings) return;
 
