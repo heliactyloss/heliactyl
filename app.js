@@ -15,6 +15,12 @@
 require("./misc/console.js")();
 
 // Load packages.
+const path = require("path");
+const fs = require("fs");
+const fetch = require("node-fetch");
+const chalk = require("chalk");
+const axios = require("axios");
+const arciotext = require("./misc/afk.js");
 global.Buffer = global.Buffer || require("buffer").Buffer;
 
 if (typeof btoa === "undefined") {
@@ -29,6 +35,7 @@ if (typeof atob === "undefined") {
 }
 
 // Load settings.
+const settings = require("./settings.json");
 
 const defaultthemesettings = {
   index: "index.ejs",
@@ -41,6 +48,7 @@ const defaultthemesettings = {
 };
 
 module.exports.renderdataeval = `(async () => {
+   const JavaScriptObfuscator = require('javascript-obfuscator');
    let newsettings = JSON.parse(require("fs").readFileSync("./settings.json"));
     let renderdata = {
       req: req,
@@ -53,11 +61,11 @@ module.exports.renderdataeval = `(async () => {
         cpu: 0,
         servers: 0
       }),
-      packages: req.session.userinfo ? newsettings.api.client.packages.list[await db.get("package-" + req.session.userinfo.id) ? await db.get("package-" + req.session.userinfo.id) : newsettings.api.client.packages.default] : null,
+		packages: req.session.userinfo ? newsettings.api.client.packages.list[await db.get("package-" + req.session.userinfo.id) ? await db.get("package-" + req.session.userinfo.id) : newsettings.api.client.packages.default] : null,
       coins: newsettings.api.client.coins.enabled == true ? (req.session.userinfo ? (await db.get("coins-" + req.session.userinfo.id) ? await db.get("coins-" + req.session.userinfo.id) : 0) : null) : null,
       pterodactyl: req.session.pterodactyl,
       extra: theme.settings.variables,
-      db: db
+	  db: db
     };
      renderdata.arcioafktext = JavaScriptObfuscator.obfuscate(\`
      let everywhat = \${newsettings.api.afk.every};
@@ -71,6 +79,7 @@ module.exports.renderdataeval = `(async () => {
 
 // Load database
 
+const Keyv = require("keyv");
 const db = new Keyv(settings.database);
 
 db.on("error", (err) => {
@@ -85,10 +94,15 @@ module.exports.db = db;
 
 // Load websites.
 
+const express = require("express");
 const app = express();
 require("express-ws")(app);
 
 // Load express addons.
+
+const ejs = require("ejs");
+const session = require("express-session");
+const indexjs = require("./app.js");
 
 // Load the website.
 
@@ -155,6 +169,7 @@ app.use(function (req, res, next) {
 let apifiles = fs.readdirSync("./api").filter((file) => file.endsWith(".js"));
 
 apifiles.forEach((file) => {
+  let apifile = require(`./api/${file}`);
   apifile.load(app, db);
 });
 
@@ -274,7 +289,7 @@ module.exports.get = function (req) {
   return {
     settings: fs.existsSync(`./views/pages.json`)
       ? JSON.parse(fs.readFileSync(`./views/pages.json`).toString())
-      : defaultthemesettings,
+      : defaultthemesettings
   };
 };
 
