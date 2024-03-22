@@ -5,7 +5,7 @@
     "key": "Your Pterodactyl API key with all permissions"
   },
   "timezone": "Europe/London",
-  "version": "14.10.3",
+  "version": "14.11.0",
   "testing": false,
   "website": {
     "port": 3000,
@@ -14,6 +14,7 @@
   "database": "sqlite://database.sqlite",
   "api": {
     "client": {
+      "accountSwitcher": true,
       "api": {
         "enabled": true,
         "code": "Default API Key (Change this to any string you want)"
@@ -40,7 +41,9 @@
         "joinguild": {
           "_comment": "The Discord bot must be in these servers and have invite permissions. Automatic guild joining will not work unless role packages are configured correctly. You can always just set it to a random role & package so that only this works.",
           "enabled": false,
-          "guildid": ["000000000000000000"]
+          "guildid": [
+            "000000000000000000"
+          ]
         },
         "giverole": {
           "_comment": "Auto-join must be enabled for this to work - or the user must already be in your Discord. This will give the user a role when they login.",
@@ -199,19 +202,24 @@
       "_note": "This is the 2nd-generation version of Heliactyl's AFK system. Please report any bugs on the GitHub (github.com/heliactyloss/heliactyl). Thank you.",
       "path": "ws",
       "every": 60,
-      "coins": 1
+      "coins": 1,
+      "enabled": true
     }
   },
   "antivpn": {
     "note": "For this to work, generate an API Key on https://proxycheck.io/. If you do not put a key, Heliactyl will automatically disable anti-VPN.",
     "status": false,
     "APIKey": "Proxycheck API Key",
-    "whitelistedIPs": ["IP address"]
+    "whitelistedIPs": [
+      "IP address"
+    ]
   },
   "whitelist": {
     "note": "This allows only specific people to be able to login to the Heliactyl dashboard. This does not affect your Panel.",
     "status": false,
-    "users": ["User ID"]
+    "users": [
+      "User ID"
+    ]
   },
   "logging": {
     "_note": "This is the 2nd-generation version of Heliactyl's logging system. Please report any bugs on the GitHub (github.com/heliactyloss/heliactyl). Thank you.",

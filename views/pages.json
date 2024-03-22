@@ -45,12 +45,14 @@
     "servers/new": "servers/create.ejs",
     "edit": "servers/edit.ejs",
     "profile": "general/profile.ejs",
-    "admin": "admin/admin.ejs",
     "security": "general/security.ejs",
     "transfer": "coins/transfer.ejs",
     "afk": "coins/afk.ejs",
     "store": "coins/store.ejs",
-    "servers": "servers/servers.ejs"
+    "servers": "servers/servers.ejs",
+    "accounts": "accounts.ejs",
+    "admin": "admin/admin.ejs",
+    "settings": "admin/settings.ejs"
   },
   "mustbeloggedin": [
     "/dashboard",
@@ -64,12 +66,6 @@
   ],
   "mustbeadmin": [
     "/admin",
-    "/admin/plans",
-    "/admin/resources",
-    "/admin/coupons",
-    "/admin/coins"
-  ],
-  "variables": {
-    "faviconlink": "https://cdn.discordapp.com/attachments/1063585626022223892/1065305275826966609/Screenshot_2023-01-18_162220.jpg"
-  }
+    "/settings"
+  ]
 }

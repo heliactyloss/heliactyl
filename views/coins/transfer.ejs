@@ -12,21 +12,21 @@
 
 <body class="bg-gray-100" style="font-family: 'Inter', sans-serif;">
   <%
-let ram = 0;
-let disk = 0;
-let cpu = 0;
-let servers = pterodactyl.relationships.servers.data.length;
-for (let i = 0, len = pterodactyl.relationships.servers.data.length; i < len; i++) {
-    ram = ram + (typeof pterodactyl.relationships.servers.data[i].attributes.limits.memory == "number" ? pterodactyl.relationships.servers.data[i].attributes.limits.memory : 0);
-    disk = disk + (typeof pterodactyl.relationships.servers.data[i].attributes.limits.disk == "number" ? pterodactyl.relationships.servers.data[i].attributes.limits.disk : 0);
-    cpu = cpu + (typeof pterodactyl.relationships.servers.data[i].attributes.limits.cpu == "number" ? pterodactyl.relationships.servers.data[i].attributes.limits.cpu : 0);
-}
-%>
+    let ram = 0;
+    let disk = 0;
+    let cpu = 0;
+    let servers = pterodactyl.relationships.servers.data.length;
+    for (let i = 0, len = pterodactyl.relationships.servers.data.length; i < len; i++) {
+      ram = ram + (typeof pterodactyl.relationships.servers.data[i].attributes.limits.memory == "number" ? pterodactyl.relationships.servers.data[i].attributes.limits.memory : 0);
+      disk = disk + (typeof pterodactyl.relationships.servers.data[i].attributes.limits.disk == "number" ? pterodactyl.relationships.servers.data[i].attributes.limits.disk : 0);
+      cpu = cpu + (typeof pterodactyl.relationships.servers.data[i].attributes.limits.cpu == "number" ? pterodactyl.relationships.servers.data[i].attributes.limits.cpu : 0);
+  }
+  %>
   <%- include('../components/navigation') %>
   <div class="md:pl-48 flex flex-col flex-1 h-screen">
     <main class="flex-1 pb-32">
       <div class="py-6">
-        <!-- Skeleton loader -->
+        <% /* Skeleton loader, lasts about 0.3s to let the page content load */ %>
         <%- include('../components/skeleton') %>
         <div class="hidden max-w-7xl pt-8 mx-auto px-4 sm:px-6 md:px-8" id="content">
           <% if (req.query.err == "SUCCESS") { %>
@@ -40,13 +40,12 @@ for (let i = 0, len = pterodactyl.relationships.servers.data.length; i < len; i+
               <div class="ml-3">
                 <h3 class="text-md font-medium tracking-tight text-gray-700">Transfer complete</h3>
                 <div class="mt-1 text-sm text-gray-500">
-                  <p>The requested user has now received the credits.</p>
+                  <p>The requested user has now received the coins.</p>
                 </div>
               </div>
             </div>
           </div>
           <% } %>
-          <!-- Replace with your content -->
           <div class="lg:flex lg:items-center lg:justify-between rounded-3xl mb-8">
             <div class="min-w-0 flex-1">
               <div class="flex">
@@ -59,22 +58,41 @@ for (let i = 0, len = pterodactyl.relationships.servers.data.length; i < len; i+
                 </div>
                 <div class="relative ml-4">
                   <h2 class="text-xl font-semibold text-gray-700 sm:truncate tracking-tight">Transfer</h2>
-                  <p class="text-xs font-thin text-gray-500">Send your credits to another user.</p>
+                  <p class="text-xs font-thin text-gray-500">Send your coins to another user.</p>
                 </div>
               </div>
             </div>
           </div>
-          <!-- This example requires Tailwind CSS v2.0+ -->
+          <% /* Error message implemented again */ %>
+          <% if (req.query.err) { %>
+          <div class="rounded-3xl bg-gray-200 p-8 mb-5">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 text-gray-400">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div class="ml-3">
+                <h3 class="text-md font-medium tracking-tight text-gray-700">An error was encountered</h3>
+                <div class="mt-1 text-sm text-gray-500">
+                  <p>Error code: <code><%= req.query.err %></code></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %>
           <div class="card mt-5">
             <div class="card-body">
+              <% /* User ID */ %>
               <label for="ram" class="text-sm font-medium text-gray-600">User ID</label>
-              <input type="text" class="mt-3 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-1/4 text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" id="dc" placeholder="00000000000000000">
-              <br>
-              <label for="disk" class="text-sm font-medium text-gray-600">Credits</label>
-              <input type="text" class="mt-3 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-1/4 text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" id="amount" placeholder="<%= coins.toFixed(2) %>">
-              <br>
+              <input type="text" class="mb-4 mt-3 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-1/4 text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" id="dc" placeholder="00000000000000000">
 
-              <a href="javascript:submitForm()" type="button" class="transition inline-flex items-center rounded-2xl bg-gray-200 px-8 py-2 text-sm font-medium text-gray-600 hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
+              <% /* Amount */ %>
+              <label for="disk" class="text-sm font-medium text-gray-600">Amount</label>
+              <input type="text" class="mt-3 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-1/4 text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" id="amount" placeholder="<%= coins.toFixed(2) %>">
+
+              <% /* Submit form */ %>
+              <a href="javascript:submitForm()" type="button" class="mt-6 transition inline-flex items-center rounded-2xl bg-gray-200 px-8 py-2 text-sm font-medium text-gray-600 hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
                 Transfer
               </a>
               <br>

@@ -16,7 +16,7 @@
     <div class="md:pl-48 flex flex-col flex-1 h-screen">
       <main class="flex-1 pb-32">
         <div class="py-6">
-          <!-- Skeleton loader -->
+          <% /* Skeleton loader, lasts about 0.3s to let the page content load */ %>
           <%- include('../components/skeleton') %>
           <div class="hidden max-w-7xl pt-8 mx-auto px-4 sm:px-6 md:px-8" id="content">
             <div class="lg:flex lg:items-center lg:justify-between rounded-3xl mb-8">
@@ -85,7 +85,7 @@
                         <path d="M8 8.5c1.84 0 3.579-.37 4.914-1.037A6.33 6.33 0 0 0 14 6.78V8c0 1.657-2.686 3-6 3S2 9.657 2 8V6.78c.346.273.72.5 1.087.683C4.42 8.131 6.16 8.5 8 8.5Z" />
                         <path d="M8 12.5c1.84 0 3.579-.37 4.914-1.037.366-.183.74-.41 1.086-.684V12c0 1.657-2.686 3-6 3s-6-1.343-6-3v-1.22c.346.273.72.5 1.087.683C4.42 12.131 6.16 12.5 8 12.5Z" />
                       </svg>
-                      <%= coins.toFixed(2) %> credits
+                      <%= coins.toFixed(2) %> coins
                     </span> and <%= servers %> active servers.</p>
                 </div>
               </div>
@@ -150,7 +150,7 @@
                   <a href="../store" class="focus:outline-none">
                     <span class="absolute inset-0" aria-hidden="true"></span>
                     <p class="text-sm font-medium text-gray-900">Purchase additional resources</p>
-                    <p class="truncate text-xs text-gray-400">Use your credits to buy extra resources.</p>
+                    <p class="truncate text-xs text-gray-400">Use your coins to buy extra resources.</p>
                   </a>
                 </div>
               </div>
@@ -163,8 +163,8 @@
                 <div class="min-w-0 flex-1">
                   <a href="../transfer" class="focus:outline-none">
                     <span class="absolute inset-0" aria-hidden="true"></span>
-                    <p class="text-sm font-medium text-gray-900">Transfer your credits</p>
-                    <p class="truncate text-xs text-gray-400">Send your credits to someone else.</p>
+                    <p class="text-sm font-medium text-gray-900">Transfer your coins</p>
+                    <p class="truncate text-xs text-gray-400">Send your coins to someone else.</p>
                   </a>
                 </div>
               </div>

@@ -15,10 +15,9 @@
   <div class="md:pl-48 flex flex-col flex-1 h-screen">
     <main class="flex-1 pb-32">
       <div class="py-6">
-        <!-- Skeleton loader -->
+        <% /* Skeleton loader, lasts about 0.3s to let the page content load */ %>
         <%- include('../components/skeleton') %>
         <div class="hidden max-w-7xl pt-8 mx-auto px-4 sm:px-6 md:px-8" id="content">
-          <!-- This example requires Tailwind CSS v2.0+ -->
           <div class="lg:flex lg:items-center lg:justify-between rounded-3xl mb-8">
             <div class="min-w-0 flex-1">
               <div class="flex">
@@ -31,13 +30,13 @@
                 </div>
                 <div class="relative ml-4">
                   <h2 class="text-xl font-semibold text-gray-700 sm:truncate tracking-tight">AFK Page</h2>
-                  <p class="text-xs font-thin text-gray-500">You'll automatically get credits for leaving this page open.</p>
+                  <p class="text-xs font-thin text-gray-500">You'll automatically get coins for leaving this page open.</p>
                 </div>
               </div>
             </div>
           </div>
           <p class="text-gray-500 text-sm">Countdown: <span id="arciotimer"></span> seconds</p>
-          <p class="text-gray-500 text-sm">Earnings: <span id="arciogainedcoins">0</span> credits</p>
+          <p class="text-gray-500 text-sm">Earnings: <span id="arciogainedcoins">0</span> coins</p>
           <p class="text-gray-500 text-sm">Duration: <span id="sessionDuration">-</span></p>
 
           <script>

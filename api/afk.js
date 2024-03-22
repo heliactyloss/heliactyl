@@ -1,9 +1,9 @@
 /**
  * |-| [- |_ | /\ ( ~|~ `/ |_
  *
- * Heliactyl 14.10.2 ― Avalanche Ridge
+ * Heliactyl 14.11.0 ― Cascade Ridge
  *
- * This is for the AFK websocket. It gives the user coins / credits every x seconds.
+ * This is for the AFK websocket. It gives the user coins every x seconds.
  * @module afk
 */
 

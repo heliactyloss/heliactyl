@@ -1,0 +1,201 @@
+<head>
+  <title><%= settings.name %></title>
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.png">
+  <link rel="stylesheet" href="../assets/tailwind.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://unpkg.com/@popperjs/core@2.10.1/dist/umd/popper.min.js"></script>
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100" style="font-family: 'Inter', sans-serif;">
+  <div>
+    <%- include('../components/navigation') %>
+    <div class="md:pl-48 flex flex-col flex-1 h-screen">
+      <main class="flex-1 pb-32">
+        <div class="py-6">
+          <% /* Skeleton loader, lasts about 0.3s to let the page content load */ %>
+          <%- include('../components/skeleton') %>
+          <div class="hidden max-w-7xl pt-8 mx-auto px-4 sm:px-6 md:px-8" id="content">
+            <!-- Content -->
+            <div class="lg:flex lg:items-center lg:justify-between rounded-3xl mb-8">
+              <div class="min-w-0 flex-1">
+                <div class="flex">
+                  <div class="relative">
+                    <div class="bg-gray-200 rounded-2xl h-11 w-11 text-center flex text-gray-400">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mt-3 ml-3">
+                        <path fill-rule="evenodd" d="M11.078 2.25c-.917 0-1.699.663-1.85 1.567L9.05 4.889c-.02.12-.115.26-.297.348a7.493 7.493 0 0 0-.986.57c-.166.115-.334.126-.45.083L6.3 5.508a1.875 1.875 0 0 0-2.282.819l-.922 1.597a1.875 1.875 0 0 0 .432 2.385l.84.692c.095.078.17.229.154.43a7.598 7.598 0 0 0 0 1.139c.015.2-.059.352-.153.43l-.841.692a1.875 1.875 0 0 0-.432 2.385l.922 1.597a1.875 1.875 0 0 0 2.282.818l1.019-.382c.115-.043.283-.031.45.082.312.214.641.405.985.57.182.088.277.228.297.35l.178 1.071c.151.904.933 1.567 1.85 1.567h1.844c.916 0 1.699-.663 1.85-1.567l.178-1.072c.02-.12.114-.26.297-.349.344-.165.673-.356.985-.57.167-.114.335-.125.45-.082l1.02.382a1.875 1.875 0 0 0 2.28-.819l.923-1.597a1.875 1.875 0 0 0-.432-2.385l-.84-.692c-.095-.078-.17-.229-.154-.43a7.614 7.614 0 0 0 0-1.139c-.016-.2.059-.352.153-.43l.84-.692c.708-.582.891-1.59.433-2.385l-.922-1.597a1.875 1.875 0 0 0-2.282-.818l-1.02.382c-.114.043-.282.031-.449-.083a7.49 7.49 0 0 0-.985-.57c-.183-.087-.277-.227-.297-.348l-.179-1.072a1.875 1.875 0 0 0-1.85-1.567h-1.843ZM12 15.75a3.75 3.75 0 1 0 0-7.5 3.75 3.75 0 0 0 0 7.5Z" clip-rule="evenodd" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="relative ml-4">
+                    <h2 class="text-xl font-semibold text-gray-700 sm:truncate tracking-tight">Settings</h2>
+                    <p class="text-xs font-thin text-gray-500">Update values in your settings.json file.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% if (req.query.err && req.query.err !== "none") { %>
+            <div class="rounded-3xl bg-gray-200 p-8 mb-5">
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 text-gray-400">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div class="ml-3">
+                  <h3 class="text-md font-medium tracking-tight text-gray-700">An error was encountered</h3>
+                  <div class="mt-1 text-sm text-gray-500">
+                    <p>Error code: <code><%= req.query.err %></code></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% } %>
+            <% if (req.query.err && req.query.err == "none") { %>
+            <div class="rounded-3xl bg-white p-8 mb-5">
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  <svg class="h-5 w-5 text-emerald-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+                <div class="ml-3">
+                  <h3 class="text-md font-medium tracking-tight text-gray-700">Settings update successful!</h3>
+                  <div class="mt-1 text-sm text-gray-500">
+                    <p>Your settings.json file has been updated. Depending on the setting you updated, you may need to reboot Heliactyl to apply the changes.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% } %>
+            <!-- Pterodactyl -->
+            <div class="card mt-10">
+              <div class="card-body">
+                <h1 class="text-xl font-semibold text-gray-700 sm:truncate tracking-tight mb-6">Pterodactyl settings</h1>
+                <% /* Panel URL */ %>
+                <label for="url" class="text-sm font-medium text-gray-600">URL <span class="text-gray-400">(hostname only)</span></label><br>
+                <input type="text" class="mt-3 mb-4 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-1/4 text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" id="url" placeholder="example.com">
+
+                <% /* Panel Key */ %>
+                <label for="location" class="text-sm font-medium text-gray-600">API Key</label><br>
+                <input type="text" class="mt-3 mb-4 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-1/4 text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" id="key" placeholder="plta_xxx">
+
+                <% /* Submit form */ %>
+                <a href="javascript:updatePtero()" type="button" class="mt-6 transition inline-flex items-center rounded-2xl bg-gray-200 px-8 py-2 text-sm font-medium text-gray-600 hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
+                  Update
+                </a>
+              </div>
+            </div>
+            <script>
+              function updatePtero() {
+                const urlInput = document.getElementById('url');
+                const keyInput = document.getElementById('key');
+
+                /* Update Pterodactyl settings */
+                const url = 'https://' + urlInput.value;
+                const key = keyInput.value;
+
+                fetch(`/settings/update?setting=pterodactyl.domain&value=${encodeURIComponent(url)}`)
+                  .then(response => {
+                    if (response.ok) {
+                      fetch(`/settings/update?setting=pterodactyl.key&value=${encodeURIComponent(key)}`)
+                        .then(response => {
+                          if (response.ok) {
+                            // Redirect to /settings?err=none if both requests worked
+                            window.location.href = '/settings?err=none';
+                          } else {
+                            throw new Error('Failed to update Pterodactyl key');
+                          }
+                        })
+                        .catch(error => {
+                          console.error('Error:', error);
+                          alert('Failed to update Pterodactyl settings')
+                        });
+                    } else {
+                      throw new Error('Failed to update Pterodactyl domain');
+                    }
+                  })
+                  .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to update Pterodactyl settings');
+                  });
+              }
+            </script>
+            <!-- OAuth2 -->
+            <div class="card mt-10">
+              <div class="card-body">
+                <h1 class="text-xl font-semibold text-gray-700 sm:truncate tracking-tight mb-6">OAuth2 settings</h1>
+                <% /* Client ID */ %>
+                <label for="url" class="text-sm font-medium text-gray-600">Client ID</label><br>
+                <input type="text" class="mt-3 mb-4 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-1/4 text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" id="cID" placeholder="xxx">
+
+                <% /* Client Secret */ %>
+                <label for="location" class="text-sm font-medium text-gray-600">Client Secret</label><br>
+                <input type="text" class="mt-3 mb-4 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-1/4 text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" id="cSecret" placeholder="xxx">
+
+                <% /* Callback URL */ %>
+                <label for="location" class="text-sm font-medium text-gray-600">Callback URL <span class="text-gray-400">(hostname only)</span></label><br>
+                <input type="text" class="mt-3 mb-4 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-1/4 text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" id="callbackUrl" placeholder="example.com">
+
+                <% /* Submit form */ %>
+                <a href="javascript:updateOAuth2()" type="button" class="mt-6 transition inline-flex items-center rounded-2xl bg-gray-200 px-8 py-2 text-sm font-medium text-gray-600 hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
+                  Update
+                </a>
+              </div>
+            </div>
+            <script>
+              function updateOAuth2() {
+                const idInput = document.getElementById('cID');
+                const secretInput = document.getElementById('cSecret');
+                const urlInput = document.getElementById('callbackUrl');
+
+                /* Update OAuth2 settings */
+                const id = idInput.value;
+                const secret = secretInput.value;
+                const url = 'https://' + (urlInput.value).replace('/callback', '');
+
+                fetch(`/settings/update?setting=api.client.oauth2.id&value=${encodeURIComponent(id)}`)
+                  .then(response => {
+                    if (response.ok) {
+                      fetch(`/settings/update?setting=api.client.oauth2.secret&value=${encodeURIComponent(secret)}`)
+                        .then(response => {
+                          if (response.ok) {
+                            fetch(`/settings/update?setting=api.client.oauth2.link&value=${encodeURIComponent(url)}`)
+                              .then(response => {
+                                if (response.ok) {
+                                  // Redirect to /settings?err=none if both requests worked
+                                  window.location.href = '/settings?err=none';
+                                } else {
+                                  throw new Error('Failed to update OAuth2');
+                                }
+                              })
+                              .catch(error => {
+                                console.error('Error:', error);
+                                alert('Failed to update OAuth2')
+                              });
+                          } else {
+                            throw new Error('Failed to update OAuth2');
+                          }
+                        })
+                        .catch(error => {
+                          console.error('Error:', error);
+                          alert('Failed to update OAuth2')
+                        });
+                    } else {
+                      throw new Error('Failed to update OAuth2');
+                    }
+                  })
+                  .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to update OAuth2');
+                  });
+              }
+            </script>
+          </div>
+      </main>
+      <%- include('../components/footer') %>
+    </div>
+  </div>
+</body>

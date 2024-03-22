@@ -1,7 +1,7 @@
 /**
  * |-| [- |_ | /\ ( ~|~ `/ |_
  *
- * Heliactyl 14.10.2 ― Avalanche Ridge
+ * Heliactyl 14.11.0 ― Cascade Ridge
  *
  * This is for the horrible OAuth2 system that shouldn't be used in production (but it is).
  * @module oauth2

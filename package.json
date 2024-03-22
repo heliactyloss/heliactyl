@@ -1,6 +1,6 @@
 {
   "name": "heliactyl",
-  "version": "14.10.2",
+  "version": "14.11.0",
   "description": "The official Heliactyl client area for the Pterodactyl Panel.",
   "main": "app.js",
   "author": "Matt James",

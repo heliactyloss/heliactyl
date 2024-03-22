@@ -11,7 +11,7 @@
 > [!WARNING]  
 > Heliactyl 14 is not compatible with `settings.json` files from v13 or earlier. You can keep the same `database.sqlite` though without having any issues.
 
-Heliactyl is a high-performance client area for the Pterodactyl Panel. It allows your users to create, edit and delete servers, and also earn credits which can be used to upgrade their servers.
+Heliactyl is a high-performance client area for the Pterodactyl Panel. It allows your users to create, edit and delete servers, and also earn coins which can be used to upgrade their servers.
 
 ## Get started
 

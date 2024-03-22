@@ -65,7 +65,7 @@ module.exports.load = async function (app, db) {
 
     log(
       `Resources Purchased`,
-      `${req.session.userinfo.username}#${req.session.userinfo.discriminator} bought ${extraResource} ${type} from the store for \`${purchaseCost}\` Credits.`
+      `${req.session.userinfo.username}#${req.session.userinfo.discriminator} bought ${extraResource} ${type} from the store for \`${purchaseCost}\` coins.`
     );
 
     res.redirect(

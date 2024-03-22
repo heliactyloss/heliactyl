@@ -1,11 +1,11 @@
 /**
  * |-| [- |_ | /\ ( ~|~ `/ |_
  *
- * Heliactyl 14.10.2 ― Avalanche Ridge
+ * Heliactyl 14.11.0 ― Cascade Ridge
  *
  * This is for the admin side of Heliactyl.
  * @module admin
-*/
+ */
 
 const settings = require("../settings.json");
 
@@ -23,6 +23,42 @@ const ejs = require("ejs");
 const log = require("../misc/log");
 
 module.exports.load = async function (app, db) {
+  app.get("/settings/update", async (req, res) => {
+    // Check if the user is authorized to make changes
+    if (!req.session.pterodactyl || !req.session.pterodactyl.root_admin) {
+      return res.status(403).send("Unauthorized");
+    }
+
+    const setting = req.query.setting;
+    const value = req.query.value;
+
+    if (!setting || !value) {
+      return res.status(400).send("Missing setting or value parameter");
+    }
+
+    try {
+      const settingsPath = "./settings.json";
+      const settings = JSON.parse(fs.readFileSync(settingsPath));
+
+      // Split the setting path by dots and set the value
+      const keys = setting.split(".");
+      let currentObj = settings;
+      for (let i = 0; i < keys.length - 1; i++) {
+        if (!currentObj[keys[i]]) {
+          currentObj[keys[i]] = {};
+        }
+        currentObj = currentObj[keys[i]];
+      }
+      currentObj[keys[keys.length - 1]] = value;
+
+      fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2));
+      res.send("Settings updated successfully");
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Internal Server Error");
+    }
+  });
+  
   app.get("/setcoins", async (req, res) => {
     let theme = indexjs.get(req);
 
@@ -815,9 +851,7 @@ module.exports.load = async function (app, db) {
             `App ― An error has occured on path ${req._parsedUrl.pathname}:`
           );
           console.log(err);
-          return res.send(
-            "An error has occured while attempting to load this page. Please contact an administrator to fix this."
-          );
+          return res.send("Internal Server Error");
         }
         res.status(404);
         res.send(str);

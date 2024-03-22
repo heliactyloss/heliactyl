@@ -1,7 +1,7 @@
 /**
  * |-| [- |_ | /\ ( ~|~ `/ |_
  *
- * Heliactyl 14.10.2 ― Avalanche Ridge
+ * Heliactyl 14.11.0 ― Cascade Ridge
  *
  * This is for creating, deleting and editing servers on the user side.
  * @module servers
