@@ -1,7 +1,7 @@
 /**
  * |-| [- |_ | /\ ( ~|~ `/ |_
  *
- * Heliactyl 14.10.2 ― Avalanche Ridge
+ * Heliactyl 14.10.3 ― Avalanche Ridge
  *
  * This file acts as the API for the Heliactyl application.
  * @module api
@@ -39,6 +39,9 @@ module.exports.load = async function (app, db) {
    * Returns the user information.
    */
   app.get("/api/v2/userinfo", async (req, res) => {
+    let settings = await check(req, res);	
+    if (!settings) return;	
+    
     if (!req.query.id) return res.send({ status: "missing id" });
 
     if (!(await db.get("users-" + req.query.id))) return res.send({ status: "invalid id" });
