@@ -200,10 +200,10 @@
     },
     "afk": {
       "_note": "This is the 2nd-generation version of Heliactyl's AFK system. Please report any bugs on the GitHub (github.com/heliactyloss/heliactyl). Thank you.",
+      "enabled": true,
       "path": "ws",
       "every": 60,
-      "coins": 1,
-      "enabled": true
+      "coins": 1
     }
   },
   "antivpn": {
@@ -231,10 +231,7 @@
         "create server": true,
         "gifted coins": true,
         "modify server": true,
-        "buy servers": true,
-        "buy ram": true,
-        "buy cpu": true,
-        "buy disk": true
+        "resources purchased": true  
       },
       "admin": {
         "set coins": true,
