@@ -228,7 +228,7 @@
     "actions": {
       "user": {
         "signup": true,
-        "create server": true,
+        "created server": true,
         "transfer coins": true,
         "modify server": true,
         "resources purchased": true  
