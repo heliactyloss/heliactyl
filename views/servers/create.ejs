@@ -88,13 +88,13 @@
                 <% } %>
               </select>
 
-              <% /* Resources - RAM, CPU, Disk */ %>
+              <% /* Resources - CPU, RAM, Disk */ %>
+              <label for="cpu" class="text-sm font-medium text-gray-600 pt-4">CPU Cores</label>
+              <input type="text" class="mt-3 mb-4 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-1/4 text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" id="cpu" placeholder="<%= (packages ? packages.cpu : 0)/100 + extraresources.cpu/100 - cpu/100 %>" value="<%= (packages ? packages.cpu : 0)/100 + extraresources.cpu/100 - cpu/100 %>">
               <label for="ram" class="text-sm font-medium text-gray-600 pt-4">Memory (GiB)</label>
               <input type="text" class="mt-3 mb-4 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-1/4 text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" id="ram" placeholder="<%= (packages ? packages.ram : 0)/1024 + extraresources.ram/1024 - ram/1024 %>" value="<%= (packages ? packages.ram : 0)/1024 + extraresources.ram/1024 - ram/1024 %>">
               <label for="disk" class="text-sm font-medium text-gray-600 pt-4">Storage (GiB)</label>
               <input type="text" class="mt-3 mb-4 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-1/4 text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" id="disk" placeholder="<%= (packages ? packages.disk : 0)/1024 + extraresources.disk/1024 - disk/1024 %>" value="<%= (packages ? packages.disk : 0)/1024 + extraresources.disk/1024 - disk/1024 %>">
-              <label for="cpu" class="text-sm font-medium text-gray-600 pt-4">CPU Cores</label>
-              <input type="text" class="mt-3 mb-4 px-4 py-2 focus:border-gray-400 focus:ring-gray-600 border border-gray-200 shadow-sm transition ease-in-out delay-100 group relative flex w-1/4 text-sm justify-center form-control rounded-xl placeholder:text-gray-400 text-gray-600" id="cpu" placeholder="<%= (packages ? packages.cpu : 0)/100 + extraresources.cpu/100 - cpu/100 %>" value="<%= (packages ? packages.cpu : 0)/100 + extraresources.cpu/100 - cpu/100 %>">
 
               <% /* Submit form */ %>
               <a href="javascript:submitForm()" type="button" class="mt-6 transition inline-flex items-center rounded-2xl bg-gray-200 px-8 py-2 text-sm font-medium text-gray-600 hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600" onclick="replaceWithLoader()">
