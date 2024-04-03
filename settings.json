@@ -229,7 +229,7 @@
       "user": {
         "signup": true,
         "create server": true,
-        "gifted coins": true,
+        "transfer coins": true,
         "modify server": true,
         "resources purchased": true  
       },
