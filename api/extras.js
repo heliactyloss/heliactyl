@@ -85,7 +85,7 @@ module.exports.load = async function (app, db) {
       await db.set(`coins-${req.session.userinfo.id}`, usercoins - coins);
 
       log(
-        "Gifted Coins",
+        "transfer coins",
         `${req.session.userinfo.username}#${req.session.userinfo.discriminator} sent ${coins}\ coins to the user with the ID \`${req.query.id}\`.`
       );
       cb();
