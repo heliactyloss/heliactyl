@@ -66,7 +66,7 @@ module.exports.load = async function (app, db) {
     adminjs.suspend(req.session.userinfo.id);
 
     log(
-      `Resources Purchased`,
+      `resources purchased`,
       `${req.session.userinfo.username}#${req.session.userinfo.discriminator} bought ${extraResource} ${type} from the store for \`${purchaseCost}\` coins.`
     );
 
