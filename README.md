@@ -1,6 +1,3 @@
-![alt text](https://cdn.discordapp.com/attachments/1170429889829154970/1220410297496375326/Mercury_v2_2.png?ex=660ed6a9&is=65fc61a9&hm=f0c3720aeceab7e096658d153fa2494dfd8ca05999d7a21a056e4b3dda49da50&)
-![alt text](https://cdn.discordapp.com/attachments/1170429889829154970/1220425007411499088/polaris_6.png?ex=660ee45c&is=65fc6f5c&hm=bed985205e43c2cd52373c3f3e3db5d691acff837be615cface9a00835aabdde&)
-
 # Heliactyl
 
 ![GitHub commit](https://img.shields.io/github/last-commit/heliactyloss/heliactyl) ![GitHub Release](https://img.shields.io/github/v/release/heliactyloss/heliactyl)
