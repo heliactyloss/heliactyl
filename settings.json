@@ -5,7 +5,7 @@
     "key": "Your Pterodactyl API key with all permissions"
   },
   "timezone": "Europe/London",
-  "version": "14.11.0",
+  "version": "14.11.1",
   "testing": false,
   "website": {
     "port": 3000,
