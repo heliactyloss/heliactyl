@@ -1,7 +1,7 @@
 /**
  * |-| [- |_ | /\ ( ~|~ `/ |_
  *
- * Heliactyl 14.11.0 ― Cascade Ridge
+ * Heliactyl 14.11.1 ― Cascade Ridge
  *
  * This is for the AFK websocket. It gives the user coins every x seconds.
  * @module afk
@@ -17,7 +17,7 @@ let currentlyonpage = {};
 module.exports.load = async function(app, db) {
   app.ws("/" + settings.api.afk.path, async (ws, req) => {
     let newsettings = JSON.parse(require("fs").readFileSync("./settings.json"));
-    if (!req.session.userinfo.id) return ws.close();
+    if (!req.session.pterodactyl) return ws.close();
     if (currentlyonpage[req.session.userinfo.id]) return ws.close();
 
     currentlyonpage[req.session.userinfo.id] = true;
