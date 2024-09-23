@@ -3,21 +3,23 @@
 ![GitHub commit](https://img.shields.io/github/last-commit/heliactyloss/heliactyl) ![GitHub Release](https://img.shields.io/github/v/release/heliactyloss/heliactyl)
 
 > [!CAUTION]  
-> **⚠️ Heliactyl reaches permanent end-of-life on September 1st, 2024 ⚠️**
+> ~~**⚠️ Heliactyl reaches permanent end-of-life on September 1st, 2024 ⚠️**~~
 >
-> Security releases for Heliactyl 10, 11, 13 ended on July 1st, 2024, and security releases for Heliactyl 12, 14, 18 will end on September 1st, 2024
+> ~~Security releases for Heliactyl 10, 11, 13 ended on July 1st, 2024, and security releases for Heliactyl 12, 14, 18 will end on September 1st, 2024~~
 >
-> A while ago, we formed an agreement with all maintainers and contributors (excluding Ghostload, we have not contacted him yet) of Heliactyl to end development and support of it by 2025 (as by then, stable [Skyport Panel](https://skyport.dev) releases would be available) however this has been shortened to the start of September
+> ~~A while ago, we formed an agreement with all maintainers and contributors (excluding Ghostload, we have not contacted him yet) of Heliactyl to end development and support of it by 2025 (as by then, stable [Skyport Panel](https://skyport.dev) releases would be available) however this has been shortened to the start of September~~
 > 
-> SRYDEN and/or me will not update Heliactyl with any future releases past this date, all users of it are highly recommended to move to something else
+> ~~SRYDEN and/or me will not update Heliactyl with any future releases past this date, all users of it are highly recommended to move to something else~~
 > 
-> **Dashboards such as legacy Dashactyl, HolaClient, NorthClient are Heliactyl-based and are not safe to use, and will not include any recent security patches - you are putting your servers and data at risk by using these**
+> ~~**Dashboards such as legacy Dashactyl, HolaClient, NorthClient are Heliactyl-based and are not safe to use, and will not include any recent security patches - you are putting your servers and data at risk by using these**~~
 > 
-> If the file structure of the dashboard you are looking at has folders named `themes`, `assets`, `misc`, `stuff` or anything similar, it has a high chance of being based on Heliactyl and should not be used
+> ~~If the file structure of the dashboard you are looking at has folders named `themes`, `assets`, `misc`, `stuff` or anything similar, it has a high chance of being based on Heliactyl and should not be used~~
 > 
-> We have delayed this for a long time despite the vulnerabilities, poor code quality and ancient modules in Heliactyl due to the amount of people still using it but this will end on September 1st 
+> ~~We have delayed this for a long time despite the vulnerabilities, poor code quality and ancient modules in Heliactyl due to the amount of people still using it but this will end on September 1st ~~
 >
-> **We have built our own panel to replace Pterodactyl and recommend you at least try it out: [Skyport Panel](https://skyport.dev)**
+> ~~**We have built our own panel to replace Pterodactyl and recommend you at least try it out: [Skyport Panel](https://skyport.dev)**~~
+> 
+> The Heliactyl Team has built a brand new dashboard, Graphene. Learn more [by clicking here](https://github.com/graphenepowered/), launching Oct 2024.
 
 Heliactyl was a high-performance client area for the Pterodactyl Panel. It allows your users to create, edit and delete servers, and also earn coins which can be used to upgrade their servers.
 
